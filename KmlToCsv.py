@@ -24,6 +24,7 @@ KML --> CSV so that GAE can go CSV --> NDB
 
 from bs4 import BeautifulSoup
 import csv
+import sys
 
 
 def process_coordinate_string(str):
@@ -43,9 +44,9 @@ def main():
     """
     Open the KML. Read the KML. Open a CSV file. Process a coordinate string to be a CSV row.
     """
-    with open('doc.kml', 'r') as f:
+    with open(sys.argv[1], 'r') as f:
         s = BeautifulSoup(f, 'xml')
-        with open('out.csv', 'wb') as csvfile:
+        with open(sys.argv[2], 'w') as csvfile:
             writer = csv.writer(csvfile)
             for coords in s.find_all('coordinates'):
                 writer.writerow(process_coordinate_string(coords.string))
