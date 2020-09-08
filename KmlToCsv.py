@@ -34,6 +34,7 @@ def process_coordinate_string(str):
     space_splits = str.split(" ")
     ret = []
     # There was a space in between <coordinates>" "-80.123...... hence the [1:]
+    space_splits = [split for split in space_splits if split != '']
     for split in space_splits[1:]:
         comma_split = split.split(',')
         ret.append(comma_split[1])    # lat
