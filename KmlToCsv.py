@@ -43,16 +43,37 @@ def process_coordinate_string(str):
         ret.append(_)
     return ret
 
+def process_folder(folder):
+    f_ret = []
+
+    for placemark in folder.find_all('Placemark'):
+        p_name = placemark.find('name').string
+
+        p_coordinates = process_coordinate_string(placemark.find('coordinates').string)
+
+        p_description_element = placemark.find('description')
+        if p_description_element is None:
+            p_description = None
+        else:
+            #I cannot believe I'm doing this
+            p_description_html = BeautifulSoup(p_description_element.string, 'lxml')
+            p_description = p_description_html.get_text()
+
+        p_ret = [p_name, p_description, p_coordinates]
+        f_ret.append(p_ret)
+
+    return f_ret
+
 def main():
-    """
-    Open the KML. Read the KML. Open a CSV file. Process a coordinate string to be a CSV row.
-    """
     with open(sys.argv[1], 'r') as f:
         s = BeautifulSoup(f, 'xml')
-        with open(sys.argv[2], 'w') as csvfile:
-            writer = csv.writer(csvfile)
-            for coords in s.find_all('coordinates'):
-                writer.writerow(process_coordinate_string(coords.string))
+        for folder in s.find_all('Folder'):
+            folder_name = folder.find('name').string
+            with open(sys.argv[2] + "/" + ''.join(filter(str.isalnum, folder_name)) + ".csv", 'w') as csvfile:
+                writer = csv.writer(csvfile)
+                folder = process_folder(folder)
+                for placemark in folder:
+                    writer.writerow(placemark)
 
 if __name__ == "__main__":
     main()

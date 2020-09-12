@@ -39,11 +39,12 @@ if [ ! -z "$NETWORKLINK" ]; then
 fi
 
 cd "$TEMPDIR"
-CMD="/opt/kml2csv/venv3/bin/python /opt/kml2csv/KmlToCsv.py ${FILENAME} ${TEMPDIR}/out.csv"
+mkdir out
+CMD="/opt/kml2csv/venv3/bin/python /opt/kml2csv/KmlToCsv.py ${FILENAME} ${TEMPDIR}/out/"
 echo "Running: $CMD"
 
 if $CMD; then
-	echo "Your output is ready in this file: ${TEMPDIR}/out.csv"
+	echo "Your output files are ready in this directory: ${TEMPDIR}/out"
 fi
 
 
