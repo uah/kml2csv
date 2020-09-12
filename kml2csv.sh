@@ -44,6 +44,16 @@ CMD="/opt/kml2csv/venv3/bin/python /opt/kml2csv/KmlToCsv.py ${FILENAME} ${TEMPDI
 echo "Running: $CMD"
 
 if $CMD; then
+    echo "Writing header file"
+
+    HF="$TEMPDIR/out/00README.csv"
+    echo "This dataset was generated on $(hostname -f)," > $HF
+    echo "$(date) from the source map here:," >> $HF
+    echo "$1" >> $HF
+    echo "," >> $HF
+    echo "Since this is an automatically-generated file it is inadvisable to edit it directly.," >> $HF
+    echo "Please edit the source map instead.," >> $HF
+
 	echo "Your output files are ready in this directory: ${TEMPDIR}/out"
 fi
 
