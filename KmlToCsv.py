@@ -37,8 +37,10 @@ def process_coordinate_string(str):
     space_splits = [split for split in space_splits if split != '']
     for split in space_splits[1:]:
         comma_split = split.split(',')
-        ret.append(comma_split[1])    # lat
-        ret.append(comma_split[0])    # lng
+        #ret.append(comma_split[1])    # lat
+        #ret.append(comma_split[0])    # lng
+        _ = (comma_split[1], comma_split[0])
+        ret.append(_)
     return ret
 
 def main():
