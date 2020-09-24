@@ -69,7 +69,10 @@ def process_folder(folder):
 def main():
     with open(sys.argv[1], 'r') as f:
         s = BeautifulSoup(f, 'xml')
-        for folder in s.find_all('Folder'):
+        folders = s.find_all('Folder')
+        if len(folders) == 0:
+            folders = [s,] #The "List" just contains the entire document, since it has no folder structure, so we will just output one "folder".
+        for folder in folders:
             folder_name = folder.find('name').string
             with open(sys.argv[2] + "/" + ''.join(filter(str.isalnum, folder_name)) + ".csv", 'w') as csvfile:
                 writer = csv.writer(csvfile)
