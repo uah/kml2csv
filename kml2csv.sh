@@ -8,14 +8,14 @@ else
 	export ARG
 fi
 
+FILENAME="$(mktemp)"
 if [ ! -f "$ARG" ]; then
-	FILENAME="$(mktemp)"
 	echo "That looks like a URL. Going to download it to $FILENAME"
 	CMD="wget -qO- \"$ARG\" > \"$FILENAME\""
 	echo "$CMD"
 	echo "$CMD" | bash
 else
-	FILENAME="$ARG"
+    cp "$ARG" "$FILENAME"
 fi
 
 TEMPDIR="$(mktemp -d)"
