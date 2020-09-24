@@ -49,6 +49,9 @@ def process_folder(folder):
         p_name = placemark.find('name').string
 
         p_coordinates = process_coordinate_string(placemark.find('coordinates').string)
+        p_coordinates_string = str(p_coordinates)
+        for bad in list("[]'"):
+            p_coordinates_string = p_coordinates_string.replace(bad, "")
 
         p_description_element = placemark.find('description')
         if p_description_element is None:
@@ -58,7 +61,7 @@ def process_folder(folder):
             p_description_html = BeautifulSoup(p_description_element.string, 'lxml')
             p_description = p_description_html.get_text()
 
-        p_ret = [p_name, p_description, p_coordinates]
+        p_ret = [p_name, p_description, p_coordinates_string]
         f_ret.append(p_ret)
 
     return f_ret
